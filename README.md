@@ -19,6 +19,9 @@ gcc main.c obisManager.c cJSON.c cJSON_Utils.c jsonParser.c aesSecurity.c tcpCli
 Please use the given command :
 ./luna_program
 
+## Output of The Project
+![plot](./home/ahmet/Pictures/outputOfTCPClient.png)
+
 ## Preliminary Information
 
 ### TCP Communication and AES128 Details
