@@ -20,7 +20,7 @@ Please use the given command :
 ./luna_program
 
 ## Output of The Project
-![plot](./home/ahmet/Pictures/outputOfTCPClient.png)
+![outputOfTCPClient](https://user-images.githubusercontent.com/90697438/203333574-82bb9136-a015-4a91-aa96-925b8f86241f.png)
 
 ## Preliminary Information
 
