@@ -1,91 +1,50 @@
-# Assignment
+# Descripton
 
-In this assignment we ask to simulate getting some values from a smart meter, preparing a message for the server with the values from meter and sending it to a server. Please indicate how to build project in our environment and also how we can see the packages on server side. Please refer to "Requirements" section of this document for details.
+This project is compiled for x86_64 Linux platform ubuntu. So contact me if this project isn't work for your environment.
+In this project I getting some values from a smart meter, preparing a message for the server with the values from meter and sending it to a server. Please refer to "Requirements" section of this document for details.
 
-Server side can be our local machine. So we can listen for some port and your application run on the same machine. Please tell us about how to do this on your way.
+I develop a tcp server project to listen client and see packages. Please download the server project given below link.
+https://github.com/ahmetermankose/tcp_server
 
-Below files are given to you.
+Server side must be your local machine. So you can listen for port(8080) and your application run on the same machine.
 
-- libmeter.a: A static library to simulate reading from meters. This library is compiled for x86_64 platform. So contact us if this library isn't work for your environment or you need to use a different platform.
-- libmeter.h: Header file of the library.
 
-## How to Submit Project
+## How to Build Project
 
-Please fork or download this project and do your development and create your documents in your own repository. Then you can send us the link of your repository.
+Please use the given gcc command :
+gcc main.c obisManager.c cJSON.c cJSON_Utils.c jsonParser.c aesSecurity.c tcpClient.c -L/usr/local/include/ -L/usr/local/lib64 -lcrypto -L. -lmeter -o luna_program
+
+## How to Run Project
+
+Please use the given command :
+./luna_program
 
 ## Preliminary Information
 
-### OBIS Codes
+### TCP Communication and AES128 Details
 
 Information in the smart meters are stored and read with OBIS codes, some kind of object numbers. Below you can find some (pseudo) OBIS codes. They are applicable for this assignment.
 
-OBIS    | Description
----     | ---
-1.8.0   | Total consumption (in kWh, floating point number)
-1.8.1   | Consumption in tariff 1 (in kWh, floating point number)
-1.8.2   | Consumption in tariff 2 (in kWh, floating point number)
-1.8.3   | Consumption in tariff 3 (in kWh, floating point number)
-2.8.0   | Daily consumption on last Monday (in kWh, floating point number)
-2.8.1   | Daily consumption on last Tuesday (in kWh, floating point number)
-2.8.2   | Daily consumption on last Wednesday (in kWh, floating point number)
-2.8.3   | Daily consumption on last Thursday (in kWh, floating point number)
-2.8.4   | Daily consumption on last Friday (in kWh, floating point number)
-2.8.5   | Daily consumption on last Saturday (in kWh, floating point number)
-2.8.6   | Daily consumption on last Sunday (in kWh, floating point number)
-1.9.0   | Internal relay status (no unit, boolean, 0 or 1)
+Title       | Description
+---         | ---
+Client IP   | 127.0.0.1
+Server IP   | 127.0.0.1
+Port        | 8080
+AES TYPE    | CBC
+IV          | 0000000000000000
+AES Key     | 0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88,0x99,0xAA,0xBB,0xCC,0xDD,0xEE,0xFF
 
-### Reading OBIS Codes via Library
+## Requirements for this project
+1. You have to get openssl libraries.
+    - Get openssl libraries using given link.
+    - https://www.openssl.org/source/
+    - Download openssl
+    - Unzip openssl folder
+    - Enter the folder using terminal
+    - ./config shared --prefix=/usr/local/
+    - make
+    - make install
+    - NOTE: Change the location /usr/local/ and you must have root permissions (sudo)
+2. Do not run the client project before run server project
+  
 
-Reading something from meter can be emulated with the library. This is done by calling ***getValueFromMeter*** function. First parameter is output buffer that this function will fill. Second parameter is the value that being requested. This parameter could be one of these;
-- "readout". This request will fill output buffer with following obis codes
-    - 1.8.0
-    - 1.8.1
-    - 1.8.2
-    - 1.8.3
-- Directly one of the obis codes below
-    - "2.8.0"
-    - "2.8.1"
-    - "2.8.2"
-    - "2.8.3"
-    - "2.8.4"
-    - "2.8.5"
-    - "2.8.6"
-    - "1.9.0"
-
-Function will fill result with following format
-```
-OBIS(value)
-```
-or for readout
-```
-OBIS1(value1)|OBIS2(value2)|...
-```
-
-## Requirements for this assignment
-1. Get following information from meter.
-    - Total consumption
-    - Consumption of previous calendar day
-    - Internal relay status
-2. Format this values as a JSON message as follows;
-    ```json
-    {
-        "date" : "13.11.2022 20:28:43",
-        "consumption" :
-        {
-            "total" : 12345.678,
-            "previous_day" : 123.45
-        },
-        "relay_status" : true
-    }
-    ```
-3. Encrypt this JSON string with AES.
-4. Send encrypted message using socket functions.
-
-## Deliverables
-1. Source code (in a git repository).
-2. Environment information and building instructions.
-3. Your way to listen and get encrypted message. So we can see your project running.
-4. AES encryption information and key that you use.
-
-Nice to have
-- Unit tests
